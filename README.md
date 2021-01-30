@@ -125,4 +125,6 @@ executable. Note that you specify:
       without signals (for platforms that don't support them).
 - [ ] Add some utility executables for use with the managed executable launcher for starting/stopping
       a VM on a cloud provider (e.g. Google Cloud).
+- [ ] Add an IP whitelist to prevent the server waking up every time a web-crawler pings it
+- [ ] Make the idle period more configurable
   
