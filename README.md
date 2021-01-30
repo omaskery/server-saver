@@ -22,9 +22,9 @@ Install the server from this repository:
 
 See the example configuration files in `examples/example-configs` and documentation below.
 
-### Run the server
+### Run server-saver
 
-Run the installed server using your newly created configuration:
+Run the installed server-saver server (server-saverd) using your newly created configuration:
 
 `server-saverd path/to/your/config.json`
 
@@ -34,7 +34,7 @@ There are two parts to the configuration:
 
 ### Configuring the listen address
 
-The server needs to know how to listen for new connections. To listen for connections from
+Server-saver needs to know how to listen for new connections. To listen for connections from
 any IP on port 25565, place the following in the config:
 
 ```json
@@ -43,14 +43,14 @@ any IP on port 25565, place the following in the config:
 }
 ```
 
-### How to manage the server
+### How to manage the target server
 
-The server needs to know how to start & stop the server, as well as determine its address so
-it can forward players to it.
+Server-saver needs to know how to start & stop the targetr server, as well as determine its
+address so it can forward players to it.
 
 #### Simple Proxy
 
-The simple proxy is the simplest (surprise!), it assumes a server is running all the time,
+The simple proxy is the simplest (surprise!), it assumes a target server is running all the time,
 therefore cannot start or stop it, and has a fixed address.
 
 To use a web server as an example, you can proxy connections to your computer onto a remote
@@ -77,10 +77,9 @@ http://localhost:8080 instead.
 
 #### Executable
 
-The executable launcher is the simplest _useful_ launcher, able to start and stop a program
-that acts as the server when players connect & disconnect as appropriate. This is appropriate
-if you have a game server running on a machine but just want the server to shut down when not
-in use.
+The executable launcher is the simplest _useful_ launcher, able to start and stop a targetr server
+when players connect & disconnect as appropriate. This is appropriate if you have a game server
+running on a machine but just want it to shut down when not in use.
 
 This launcher assumes that the executable being launched will immediately start serving on
 a static address.
@@ -114,6 +113,16 @@ executable. Note that you specify:
 
 * The `path` to the executable, the program that runs (in Minecraft's case it's the java runtime)
 * The `arg`uments to the executable, parameters that control its behaviour
-* The `address` that the resulting server will be listening on so that the proxy can talk to it
+* The `address` that the target server will be listening on so that the proxy can talk to it
 * Optionally, the `cwd` (current working directory), where the program should be run. If left blank
   it will default to the directory the _server-saverd server_ started in.
+
+## To do:
+
+- [ ] Make it send a signal to the target server before it kills it, if possible
+- [ ] Add a 'managed' executable launcher that supports simple communication over standard in/out
+      in order to discover the target server's address, and possibly communicate shutdown requests
+      without signals (for platforms that don't support them).
+- [ ] Add some utility executables for use with the managed executable launcher for starting/stopping
+      a VM on a cloud provider (e.g. Google Cloud).
+  
