@@ -1,0 +1,9 @@
+{
+  "bind_address": ":25565",
+  "launcher_configuration": {
+    "selected_launcher": "simple_proxy",
+    "simple_proxy": {
+      "target_address": "some.remote.minecraft.server.com:25565"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+.idea/
+
+# don't accidentally commit configurations
+*.json
+# but do commit the example configurations
+!examples/example-configs/*.json

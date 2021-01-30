@@ -1,0 +1,18 @@
+{
+  "bind_address": ":25565",
+  "launcher_configuration": {
+    "selected_launcher": "executable",
+    "executable": {
+      "path": "java",
+      "args": [
+        "-Xmx1024M",
+        "-Xms1024M",
+        "-jar",
+        "/path/to/minecraft/server.jar",
+        "--nogui",
+        "--port=25566"
+      ],
+      "address": ":25566"
+    }
+  }
+}
