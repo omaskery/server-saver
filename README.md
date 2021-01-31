@@ -39,5 +39,5 @@ Run the installed server-saver server (server-saverd) using your newly created c
 - [ ] Add some utility executables for use with the managed executable launcher for starting/stopping
       a VM on a cloud provider (e.g. Google Cloud).
 - [ ] Add an IP whitelist to prevent the server waking up every time a web-crawler pings it
-- [ ] Make the idle period more configurable
+- [x] Make the idle period more configurable
   
