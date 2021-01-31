@@ -79,6 +79,9 @@ func main() {
 			logger.WithName("executable-launcher"),
 			config.LauncherConfiguration.Executable,
 		)
+	} else {
+		fmt.Println("no known launcher specified in configuration file")
+		os.Exit(1)
 	}
 
 	d := director.New(ctx, logger.WithName("director"), l)
