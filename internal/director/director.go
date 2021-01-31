@@ -3,11 +3,16 @@ package director
 import (
 	"context"
 	"github.com/go-logr/logr"
+	"server-saver/internal/jsonutil"
 	"server-saver/internal/launcher"
 	"time"
 )
 
-const idlePeriod = 5 * time.Minute
+const DefaultIdlePeriod = 5 * time.Minute
+
+type Config struct {
+	IdlePeriod jsonutil.Duration `json:"idle_period"`
+}
 
 type Director struct {
 	logger            logr.Logger
@@ -15,19 +20,26 @@ type Director struct {
 	actions           chan<- func()
 	launcher          launcher.Launcher
 	scheduledShutdown *time.Time
+
+	cfg Config
 }
 
 type connection struct {
 	startTime time.Time
 }
 
-func New(ctx context.Context, logger logr.Logger, l launcher.Launcher) *Director {
+func New(ctx context.Context, logger logr.Logger, l launcher.Launcher, cfg Config) *Director {
+	if cfg.IdlePeriod == jsonutil.Duration(0) {
+		cfg.IdlePeriod = jsonutil.Duration(DefaultIdlePeriod)
+	}
+
 	actions := make(chan func())
 	d := &Director{
 		logger:      logger,
 		connections: map[string]*connection{},
 		actions:     actions,
 		launcher:    l,
+		cfg:         cfg,
 	}
 	go d.run(ctx, actions)
 	return d
@@ -82,6 +94,8 @@ func (d *Director) UnregisterConnection(uid string) {
 }
 
 func (d *Director) scheduleServerShutdown() {
+	idlePeriod := time.Duration(d.cfg.IdlePeriod)
+
 	shutdownTime := time.Now().Add(idlePeriod)
 	d.scheduledShutdown = &shutdownTime
 

@@ -30,6 +30,7 @@ var config struct {
 		SimpleProxy      launcher.SimpleProxyConfig `json:"simple_proxy"`
 		Executable       launcher.ExecutableConfig  `json:"executable"`
 	} `json:"launcher_configuration"`
+	DirectorConfig director.Config `json:"director_configuration"`
 }
 
 func main() {
@@ -84,7 +85,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	d := director.New(ctx, logger.WithName("director"), l)
+	d := director.New(ctx, logger.WithName("director"), l, config.DirectorConfig)
 
 	p := proxy.Server{
 		OnConnect: func(info proxy.ConnInfo) {
